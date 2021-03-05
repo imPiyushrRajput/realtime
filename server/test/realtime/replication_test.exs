@@ -5,7 +5,7 @@ defmodule Realtime.ReplicationTest do
 
   alias Realtime.Replication
   alias Realtime.Adapters.Changes.{Transaction, NewRecord, UpdatedRecord, DeletedRecord}
-  alias Realtime.Decoder.Messages.Relation
+  alias Realtime.Adapters.Postgres.Decoder.Messages.Relation
   alias Realtime.Adapters.Postgres.EpgsqlImplementation
   alias Realtime.SubscribersNotification
 
@@ -44,8 +44,6 @@ defmodule Realtime.ReplicationTest do
 
   setup do
     test_state = %Replication.State{
-      config: [],
-      connection: "pid",
       relations: %{
         26725 => %Relation{
           columns: @test_columns,
@@ -55,7 +53,6 @@ defmodule Realtime.ReplicationTest do
           replica_identity: :default
         }
       },
-      subscribers: [],
       transaction: nil,
       types: %{}
     }
@@ -66,8 +63,6 @@ defmodule Realtime.ReplicationTest do
   test "Integration Test: 0.2.0" do
     assert {:noreply,
             %Replication.State{
-              config: [],
-              connection: nil,
               relations: %{
                 16386 => %Relation{
                   columns: [
@@ -114,7 +109,6 @@ defmodule Realtime.ReplicationTest do
                   replica_identity: :default
                 }
               },
-              subscribers: [],
               transaction: nil,
               types: %{}
             }} =
